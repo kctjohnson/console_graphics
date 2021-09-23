@@ -4,6 +4,10 @@
 
 #include "../Headers/draw.h"
 
+void Point(int x, int y, char c) {
+    mvaddch(y, x, c);
+}
+
 void Line(int x1, int y1, int x2, int y2) {
     BresenhamLine(x1, y1, x2, y2);
 }
