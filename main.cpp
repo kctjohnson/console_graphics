@@ -8,17 +8,21 @@
 
 int boidQty = 150;
 
-struct Vec {
-    int x;
-    int y;
-};
+float RandomFloat(float a, float b) {
+    float random = ((float) rand()) / (float) RAND_MAX;
+    float diff = b - a;
+    float r = random * diff;
+    return a + r;
+}
 
 int main() {
+    srand(time(NULL));
+
     initscr();
 
     std::vector<Boid> boids;
     for (int i = 0; i < boidQty; i++) {
-        boids.push_back(Boid(100 + i * 100, 500, 0, 0));
+        boids.push_back(Boid(RandomFloat(0, COLS * 100), RandomFloat(0, LINES * 100), 0, 0));
     }
 
     while (true) {

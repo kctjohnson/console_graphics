@@ -5,12 +5,7 @@
 
 double scale = 100;
 
-float RandomFloat(float a, float b) {
-    float random = ((float) rand()) / (float) RAND_MAX;
-    float diff = b - a;
-    float r = random * diff;
-    return a + r;
-}
+float RandomFloat(float a, float b);
 
 Boid::Boid(double x, double y, double vx, double vy) : 
     position(x, y), velocity(vx, vy), acceleration(0, 0) {

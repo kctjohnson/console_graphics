@@ -8,7 +8,7 @@ extern const int width;
 extern const int height;
 
 const double maxForce = 0.2;
-const double maxSpeed = 4;
+const double maxSpeed = 6;
 const double perception = 500;
 
 class Boid {
