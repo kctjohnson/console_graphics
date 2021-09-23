@@ -12,12 +12,14 @@ struct Vec {
     int y;
 };
 
+// Current test version of rewriting the algo
 void BresenhamLine(int x1, int y1, int x2, int y2) {
     int rise = y2 - y1;
     int run = x2 - x1;
     int slope = rise / run;
 }
 
+// Code from https://medium.com/geekculture/dda-line-drawing-algorithm-be9f069921cf
 void testDrawLine(int x1, int y1, int x2, int y2) {
     const int dX = x2 - x1;
     const int dY = y2 - y1;
@@ -55,6 +57,8 @@ void testDrawLine(int x1, int y1, int x2, int y2) {
     }
 }
 
+// Implementation based heavily on https://classic.csunplugged.org/wp-content/uploads/2014/12/Lines.pdf
+// Currently not working
 void drawline(Vec p1, Vec p2) {
     int deltaX = p2.x - p1.x;
     int deltaY = p2.y - p1.y;
