@@ -129,7 +129,6 @@ int main() {
     vec2d newvec(10, 5);
     mvaddstr(1, 1, newvec.toString().c_str());
 
-
     refresh();
     getch();
     endwin();
