@@ -1,9 +1,13 @@
 #include <curses.h>
+#include <cmath>
 
 #include "../Headers/draw.h"
 #include "../Headers/boid.h"
 
-double scale = 100;
+extern double alignMod;
+extern double cohesionMod;
+extern double separationMod;
+extern double scale;
 
 float RandomFloat(float a, float b);
 
@@ -107,6 +111,10 @@ void Boid::flock(std::vector<Boid> boids) {
     vec2d cohesion = this->cohesion(boids);
     vec2d separation = this->separation(boids);
 
+    alignment.mult(alignMod);
+    cohesion.mult(cohesionMod);
+    separation.mult(separationMod);
+
     this->acceleration.add(alignment);
     this->acceleration.add(cohesion);
     this->acceleration.add(separation);
@@ -123,6 +131,19 @@ void Boid::update() {
 void Boid::show() {
     int showX = (int)(this->position.x / scale);
     int showY = (int)(this->position.y / scale);
-    Point(showX, showY, '>');
+
+    if (fabs(this->velocity.x) > fabs(this->velocity.y)) {
+        if (this->velocity.x > 0) {
+            Point(showX, showY, '>');
+        } else {
+            Point(showX, showY, '<');
+        }
+    } else {
+        if (this->velocity.y > 0) {
+            Point(showX, showY, 'v');
+        } else {
+            Point(showX, showY, '^');
+        }
+    }
 }
 
