@@ -8,6 +8,9 @@ extern double alignMod;
 extern double cohesionMod;
 extern double separationMod;
 extern double scale;
+extern double maxForce;
+extern double maxSpeed;
+extern double perception;
 
 float RandomFloat(float a, float b);
 
@@ -39,77 +42,46 @@ void Boid::edges() {
     }
 }
 
-vec2d Boid::align(std::vector<Boid> boids) {
-    vec2d steering(0, 0);
+void Boid::flock(std::vector<Boid> boids) {
+    vec2d alignment(0, 0);
+    vec2d cohesion(0, 0);
+    vec2d separation(0, 0);
+
     int total = 0;
     for (auto b : boids) {
         double dist = this->position.dist(b.position);
-        if (b.id != this->id && dist < perception) {
-            steering.add(b.velocity);
-            total++;
-        }
-    }
 
-    if (total > 0) {
-        steering.div(total);
-        steering.setMag(maxSpeed);
-        steering.sub(this->velocity);
-        steering.limit(maxForce);
-    }
-
-    return steering;
-}
-
-vec2d Boid::cohesion(std::vector<Boid> boids) {
-    vec2d steering(0, 0);
-    int total = 0;
-    for (auto b : boids) {
-        double dist = this->position.dist(b.position);
-        if (b.id != this->id && dist < perception) {
-            steering.add(b.position);
-            total++;
-        }
-    }
-
-    if (total > 0) {
-        steering.div(total);
-        steering.sub(this->position);
-        steering.setMag(maxSpeed);
-        steering.sub(this->velocity);
-        steering.limit(maxForce);
-    }
-
-    return steering;
-}
-
-vec2d Boid::separation(std::vector<Boid> boids) {
-    vec2d steering(0, 0);
-    int total = 0;
-    for (auto b : boids) {
-        double dist = this->position.dist(b.position);
         if (b.id != this->id && dist < perception && dist != 0) {
+            alignment.add(b.velocity);
+
+            cohesion.add(b.position);
+            
             vec2d tmp = this->position.copy();
             tmp.sub(b.position);
             tmp.div(dist);
-            steering.add(tmp);
+            separation.add(tmp);
+            
             total++;
         }
     }
 
     if (total > 0) {
-        steering.div(total);
-        steering.setMag(maxSpeed);
-        steering.sub(this->velocity);
-        steering.limit(maxForce);
+        alignment.div(total);
+        alignment.setMag(maxSpeed);
+        alignment.sub(this->velocity);
+        alignment.limit(maxForce);
+
+        cohesion.div(total);
+        cohesion.sub(this->position);
+        cohesion.setMag(maxSpeed);
+        cohesion.sub(this->velocity);
+        cohesion.limit(maxForce);
+
+        separation.div(total);
+        separation.setMag(maxSpeed);
+        separation.sub(this->velocity);
+        separation.limit(maxForce);
     }
-
-    return steering;
-}
-
-void Boid::flock(std::vector<Boid> boids) {
-    vec2d alignment = this->align(boids);
-    vec2d cohesion = this->cohesion(boids);
-    vec2d separation = this->separation(boids);
 
     alignment.mult(alignMod);
     cohesion.mult(cohesionMod);
@@ -119,7 +91,6 @@ void Boid::flock(std::vector<Boid> boids) {
     this->acceleration.add(cohesion);
     this->acceleration.add(separation);
 }
-
 
 void Boid::update() {
     this->position.add(this->velocity);

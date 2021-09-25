@@ -7,10 +7,6 @@
 extern const int width;
 extern const int height;
 
-const double maxForce = 0.2;
-const double maxSpeed = 4;
-const double perception = 350;
-
 class Boid {
 public:
     vec2d position;
@@ -21,9 +17,6 @@ public:
     Boid(double x, double y, double vx, double vy);
 
     void edges();
-    vec2d align(std::vector<Boid> boids);
-    vec2d cohesion(std::vector<Boid> boids);
-    vec2d separation(std::vector<Boid> boids);
     void flock(std::vector<Boid> boids);
     
     void update();
