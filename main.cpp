@@ -12,7 +12,7 @@ double maxForce = 0.2;
 double maxSpeed = 10;
 double perception = 300;
 
-int boidQty = 1000;
+int boidQty = 100;
 double alignMod = 1.0;
 double cohesionMod = 1.0;
 double separationMod = 1.0;
