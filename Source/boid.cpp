@@ -102,19 +102,26 @@ void Boid::update() {
 void Boid::show() {
     int showX = (int)(this->position.x / scale);
     int showY = (int)(this->position.y / scale);
+    double curAngle = this->velocity.heading() * 180 / 3.14159 + 180;
 
-    if (fabs(this->velocity.x) > fabs(this->velocity.y)) {
-        if (this->velocity.x > 0) {
-            Point(showX, showY, '>');
-        } else {
-            Point(showX, showY, '<');
-        }
+    if (curAngle >= 22.5 && curAngle < 67.5) { // Down Left
+        mvaddwstr(showY, showX, L"\u2196");
+    } else if (curAngle >= 67.5 && curAngle < 112.5) { // Down
+        mvaddwstr(showY, showX, L"\u2191");
+    } else if (curAngle >= 112.5 && curAngle < 157.5) { // Down Right
+        mvaddwstr(showY, showX, L"\u2197");
+    } else if (curAngle >= 157.5 && curAngle < 202.5) { // Right
+        mvaddwstr(showY, showX, L"\u2192");
+    } else if (curAngle >= 202.5 && curAngle < 247.5) { // Up Right
+        mvaddwstr(showY, showX, L"\u2198");
+    } else if (curAngle >= 247.5 && curAngle < 292.5) { // Up
+        mvaddwstr(showY, showX, L"\u2193");
+    } else if (curAngle >= 292.5 && curAngle < 337.5) { // Up Left
+        mvaddwstr(showY, showX, L"\u2199");
+    } else if ((curAngle >= 337.5 && curAngle < 361) || (curAngle >= 0 && curAngle < 22.5)) { // Left
+        mvaddwstr(showY, showX, L"\u2190");
     } else {
-        if (this->velocity.y > 0) {
-            Point(showX, showY, 'v');
-        } else {
-            Point(showX, showY, '^');
-        }
+        mvaddwstr(showY, showX, L"*");
     }
 }
 

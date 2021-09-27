@@ -12,7 +12,7 @@ double maxForce = 0.2;
 double maxSpeed = 10;
 double perception = 300;
 
-int boidQty = 100;
+int boidQty = 600;
 double alignMod = 1.0;
 double cohesionMod = 1.0;
 double separationMod = 1.0;
@@ -98,6 +98,7 @@ bool HandleInput() {
 int main() {
     srand(time(NULL));
 
+    setlocale(LC_ALL, "");
     initscr();
     cbreak();
     noecho();
